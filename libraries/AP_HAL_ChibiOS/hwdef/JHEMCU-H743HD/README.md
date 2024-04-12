@@ -17,7 +17,7 @@ The JHEMCU H743 HD is a flight controller produced by [JHEMCU](https://jhemcu.co
 
 ## Pinout
 
-![JHEMCU H743 Board](JHEMCU-H743HD_Board.JPG "JHEMCU H743HD")
+![JHEMCU H743 Board](JHEMCU-H743HD_Board.jpg "JHEMCU H743HD")
 
 ## UART Mapping
 
