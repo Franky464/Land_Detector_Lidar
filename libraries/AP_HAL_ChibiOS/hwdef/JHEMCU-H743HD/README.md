@@ -1,4 +1,4 @@
-# T-Motor H7 Mini Flight Controller
+# JHEMCU H743 HD Flight Controller
 
 The JHEMCU H743 HD is a flight controller produced by [JHEMCU](https://jhemcu.com/).
 
