@@ -32,7 +32,7 @@ In addition to pinouts, the board also has SH6P 1mm connector for DJI FPV and SH
  - SERIAL3 -> USART3 (DMA-enabled)
  - SERIAL4 -> UART4 (GPS, DMA-enabled)
  - SERIAL5 -> UART5 (Pins labeled R5 T5)
- - SERIAL6 -> USART6 (DJI VTX, DMA-enabled)
+ - SERIAL6 -> USART6 (DisplayPort, DMA-enabled)
  - SERIAL7 -> UART7 (ESC Telemetry)
  - SERIAL8 -> UART8 (Unused, not tested, no pinout, need to solder direct on precessor pins to utilize if you need just one more UART)
 
