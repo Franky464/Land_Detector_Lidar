@@ -33,6 +33,10 @@
 #define HAL_INS_HIGHRES_SAMPLE 0
 #endif
 
+#ifndef HAL_INS_HIGHRES_SAMPLE_MASK
+#define HAL_INS_HIGHRES_SAMPLE_MASK 0
+#endif
+
 class AuxiliaryBus;
 class AP_Logger;
 
@@ -293,9 +297,7 @@ protected:
     }
 
     // should highres sampling be enabled on this IMU?
-    bool enable_highres_sampling(uint8_t instance) const {
-        return (HAL_INS_HIGHRES_SAMPLE & (1U<<instance)) != 0;
-    }
+    bool enable_highres_sampling(uint8_t instance) const;
 
     // if fast sampling is enabled, the rate to use in kHz
     uint8_t get_fast_sampling_rate() const {

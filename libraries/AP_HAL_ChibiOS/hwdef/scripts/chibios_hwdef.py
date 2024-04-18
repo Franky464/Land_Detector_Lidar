@@ -1675,6 +1675,14 @@ INCLUDE common.ld
             if len(devlist) < 3:
                 f.write('#define INS_MAX_INSTANCES %u\n' % len(devlist))
             f.write('#define HAL_INS_PROBE_LIST %s\n\n' % ';'.join(devlist))
+            highres = self.get_config('IMU_HIGHRES_SAMPLE', required=False, aslist=True)
+            if highres is not None:
+                if highres[-1].startswith("BOARD_MATCH("):
+                    f.write('#define HAL_INS_HIGHRES_SAMPLE %s\n' % highres[0])
+                    f.write('#define HAL_INS_HIGHRES_SAMPLE_MASK (%s?HAL_INS_HIGHRES_SAMPLE:0)\n' % highres[-1])
+                else:
+                    f.write('#define HAL_INS_HIGHRES_SAMPLE %s\n' % highres[0])
+                    f.write('#define HAL_INS_HIGHRES_SAMPLE_MASK %s\n' % highres[0])
 
     def write_MAG_config(self, f):
         '''write MAG config defines'''

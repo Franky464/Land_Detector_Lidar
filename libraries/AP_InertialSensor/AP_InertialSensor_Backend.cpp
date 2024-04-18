@@ -54,6 +54,14 @@ void AP_InertialSensor_Backend::_set_gyro_oversampling(uint8_t instance, uint8_t
     _imu._gyro_over_sampling[instance] = n;
 }
 
+#define BOARD_MATCH(board_type) AP_BoardConfig::get_board_type()==AP_BoardConfig::board_type
+
+// should highres sampling be enabled on this IMU?
+bool AP_InertialSensor_Backend::enable_highres_sampling(uint8_t instance) const
+{
+    return (HAL_INS_HIGHRES_SAMPLE_MASK & (1U<<instance)) != 0;
+}
+
 /*
   update the sensor rate for FIFO sensors
 
