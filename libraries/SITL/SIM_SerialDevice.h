@@ -32,7 +32,8 @@ public:
     // methods for autopilot to use to talk to device:
     ssize_t read_from_device(char *buffer, size_t size) const;
     ssize_t write_to_device(const char *buffer, size_t size) const;
-    void set_autopilot_baud(uint32_t baud) { autopilot_baud = baud; }
+    virtual void begin(uint32_t baud, uint16_t rxS, uint16_t txS, const char* path) { autopilot_baud = baud; };
+    virtual void uart_timer_tick() {};
 
     // methods for simulated device to use:
     ssize_t read_from_autopilot(char *buffer, size_t size) const;
