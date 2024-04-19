@@ -109,6 +109,21 @@ void Copter::update_land_detector()
         // if we have a healthy rangefinder only allow landing detection below 2 meters
         bool rangefinder_check = (!rangefinder_alt_ok() || rangefinder_state.alt_cm_filt.get() < LAND_RANGEFINDER_MIN_ALT_CM);
 
+            
+// ADDED BY FRANKY <
+		// Check the Motor throttle and add 5% as limit (for use with range finder only)	
+		float mot_throttle =  motors->get_throttle_out(); // in order to be able to add this value in the log for investigation purpose
+		bool land_mot_low = mot_throttle <  g.land_detector_mot_low; // mot_low will be used instead of  motor_at_lower_limit this value must be between motor_at_lower_limit and hoover
+
+		// Check if the range finder distance is below GNDCLEAR and > 0 : this condition will allow Landed_Complete regardless the AccStationary 
+		int16_t gnd_clear = copter.rangefinder.ground_clearance_cm_orient(ROTATION_PITCH_270);  // in order to be able to add this value in the log for investigation purpose
+		bool height_gnd_clear = height < gnd_clear && height > 0; // checking if height above ground is lower than RNGFND1_GNDCLEAR param, only usefull with a RNGFND and LAND_RNGFND = 1
+			
+		bool test_mode = g.land_detector_rngfnd==1;	//checks if we are in mode Land_detector (using) RNGFND
+// ADDED BY FRANKY >
+
+
+
         // if we have weight on wheels (WoW) or ambiguous unknown. never no WoW
 #if AP_LANDINGGEAR_ENABLED
         const bool WoW_check = (landinggear.get_wow_state() == AP_LandingGear::LG_WOW || landinggear.get_wow_state() == AP_LandingGear::LG_WOW_UNKNOWN);
@@ -116,7 +131,14 @@ void Copter::update_land_detector()
         const bool WoW_check = true;
 #endif
 
-        if (motor_at_lower_limit && throttle_mix_at_min && accel_stationary && descent_rate_low && rangefinder_check && WoW_check) {
+
+// ADDED BY FRANKY <
+        if ((motor_at_lower_limit && accel_stationary && descent_rate_low && throttle_mix_at_min && rangefinder_check && WoW_check)|| 	// that condition will get TRUE as initial (probably not with large prop's)
+			(test_mode && land_mot_low && descent_rate_low && throttle_mix_at_min && rangefinder_check && WoW_check && height_gnd_clear))	// g.land_detector_rngfnd==1 && AccStationary is not tested in RNGFND LAND MODE
+			 {
+ // ADDED BY FRANKY <    
+                 
+
             // landed criteria met - increment the counter and check if we've triggered
             if( land_detector_count < land_trigger_sec*scheduler.get_loop_rate_hz()) {
                 land_detector_count++;
