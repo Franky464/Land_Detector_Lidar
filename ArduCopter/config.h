@@ -383,6 +383,16 @@
 # define LAND_DETECTOR_ACCEL_MAX            1.0f    // vehicle acceleration must be under 1m/s/s
 #endif
 
+//ADDED BY FRANKY/////////////////////////////////////////////
+#ifndef LAND_DETECTOR_RNGFND_DEFAULT
+# define LAND_DETECTOR_RNGFND_DEFAULT				0    // enable land detector on range finder instead of acceleration
+#endif
+#ifndef LAND_DETECTOR_MOT_LOW_DEFAULT
+# define LAND_DETECTOR_MOT_LOW_DEFAULT				0.1f    //If using a RNGFND this value is added on Mot_at_lower_limit a condition to trigg Land Detection
+#endif
+// ADDED BY FRANKY <
+
+
 //////////////////////////////////////////////////////////////////////////////
 // Flight mode definitions
 //
