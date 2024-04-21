@@ -106,11 +106,12 @@ void Copter::update_land_detector()
         // check that vertical speed is within 1m/s of zero
         bool descent_rate_low = fabsf(inertial_nav.get_velocity_z_up_cms()) < 100 * land_detector_scalar;
 
-        // if we have a healthy rangefinder only allow landing detection below 2 meters
-        bool rangefinder_check = (!rangefinder_alt_ok() || rangefinder_state.alt_cm_filt.get() < LAND_RANGEFINDER_MIN_ALT_CM);
-
             
 // ADDED BY FRANKY <
+        // if we have a healthy rangefinder only allow landing detection below 2 meters
+ 		int32_t height=rangefinder_state.alt_cm_filt.get();
+        bool rangefinder_check = (!rangefinder_alt_ok() || height < LAND_RANGEFINDER_MIN_ALT_CM);
+
 		// Check the Motor throttle and add 5% as limit (for use with range finder only)	
 		float mot_throttle =  motors->get_throttle_out(); // in order to be able to add this value in the log for investigation purpose
 		bool land_mot_low = mot_throttle <  g.land_detector_mot_low; // mot_low will be used instead of  motor_at_lower_limit this value must be between motor_at_lower_limit and hoover
@@ -132,7 +133,9 @@ void Copter::update_land_detector()
 #endif
 
 
-// ADDED BY FRANKY <
+// ADDED BY FRANKY >
+
+            
         if ((motor_at_lower_limit && accel_stationary && descent_rate_low && throttle_mix_at_min && rangefinder_check && WoW_check)|| 	// that condition will get TRUE as initial (probably not with large prop's)
 			(test_mode && land_mot_low && descent_rate_low && throttle_mix_at_min && rangefinder_check && WoW_check && height_gnd_clear))	// g.land_detector_rngfnd==1 && AccStationary is not tested in RNGFND LAND MODE
 			 {
